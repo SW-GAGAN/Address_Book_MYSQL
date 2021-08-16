@@ -1,5 +1,24 @@
 Welcome to Address Book!
 
+
+--------------------
+#UC1 CREATE DATABASE
+---------------------
+CREATE database address_book;
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| address_book       |
+| information_schema |
+| mysql              |
+| payroll_service    |
+| performance_schema |
+| sys                |
++--------------------+
+6 rows in set (0.05 sec)
+
+
 -----------------------
  #UC2 CREATE DATABASE 
 -----------------------
@@ -54,3 +73,30 @@ UPDATE address_book set phonenumber = 9901014451
     -> WHERE first_name = 'shravya' AND last_name = 'Reddy';
 Query OK, 1 row affected (0.39 sec)
 Rows matched: 1  Changed: 1  Warnings: 0
+
+----------------------------------
+#UC5 DELETE PERSON USING NAME
+----------------------------------
+mysql> Delete from address_book
+    -> WHERE first_name = 'shravya' AND last_name = 'Reddy';
+Query OK, 1 row affected (0.13 sec)
+
+mysql> SELECT * FROM address_book;
++------------+-----------+-----------+-----------+-------+--------+-------------+------------------------+
+| first_name | last_name | address   | city      | state | zip    | phonenumber | email_id               |
++------------+-----------+-----------+-----------+-------+--------+-------------+------------------------+
+| Gagan      | Reddy     | Heelalige | Bangalore | KA    | 560099 |  8722289619 | gaganreddy30@gmail.com |
++------------+-----------+-----------+-----------+-------+--------+-------------+------------------------+
+1 row in set (0.05 sec)
+
+-----------------------------------------------
+#UC6 Retrive person belongs to city are State
+-----------------------------------------------
+mysql> SELECT * FROM address_book
+    -> where state ='TN' OR city ='Chennai';
++------------+-----------+---------+---------+-------+--------+-------------+------------------------+
+| first_name | last_name | address | city    | state | zip    | phonenumber | email_id               |
++------------+-----------+---------+---------+-------+--------+-------------+------------------------+
+| Shravya    | Reddy     | Hosur   | Chennai | TN    | 635109 |  7019329791 | shravyareddy@gmail.com |
++------------+-----------+---------+---------+-------+--------+-------------+------------------------+
+1 row in set (0.00 sec)
