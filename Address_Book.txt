@@ -207,4 +207,17 @@ mysql> SELECT * FROM address_book;
 +------------+-----------+---------+-----------+------------+-------+--------+-------------+------------------------+
 3 rows in set (0.00 sec)
 
-mysql>
+---------------------------------------------
+#UC10 GET NO OF CONTACT PERSON COUNT BY TYPE
+---------------------------------------------
+mysql> USE address_book;
+Database changed
+mysql> SELECT type,COUNT(*) from address_book
+    -> GROUP BY type;
++---------+----------+
+| type    | COUNT(*) |
++---------+----------+
+| friends |        2 |
+| manager |        1 |
++---------+----------+
+2 rows in set (0.24 sec)
