@@ -152,3 +152,59 @@ mysql> SELECT * FROM address_book
 | Gagan      | Reddy     | Heelalige | Bangalore | KA    | 560099 |  8722289619 | gaganreddy30@gmail.com |
 +------------+-----------+-----------+-----------+-------+--------+-------------+------------------------+
 1 row in set (0.80 sec)
+
+
+------------------------------------------------------------------
+#UC9 IDENTIFY EACH ADDRESS BOOK BY NAME AND TYPE [FAMILY,FRINDS]
+------------------------------------------------------------------
+mysql> ALTER TABLE address_book
+    -> ADD type VARCHAR(150) AFTER last_name;
+Query OK, 0 rows affected (6.38 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> UPDATE address_book SET type = 'family'
+    -> WHERE first_name = 'Gagan' OR first_name = 'Shravya';
+Query OK, 2 rows affected (0.26 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> SELECT * FROM address_book;
++------------+-----------+--------+-----------+------------+-------+--------+-------------+------------------------+
+| first_name | last_name | type   | address   | city       | state | zip    | phonenumber | email_id               |
++------------+-----------+--------+-----------+------------+-------+--------+-------------+------------------------+
+| Gagan      | Reddy     | family | Heelalige | Bangalore  | KA    | 560099 |  8722289619 | gaganreddy30@gmail.com |
+| Shravya    | Reddy     | family | Hosur     | Chennai    | TN    | 635109 |  7019329791 | shravyareddy@gmail.com |
+| Dilip      | Gowda     | NULL   | shirdi    | Ahmednagar | MH    | 423107 |  9739303032 | Dilipgowda@gmail.com   |
++------------+-----------+--------+-----------+------------+-------+--------+-------------+------------------------+
+3 rows in set (0.04 sec)
+
+mysql> UPDATE address_book SET type = 'friends'
+    -> WHERE first_name = 'Dilip' OR last_name = 'Reddy';
+Query OK, 3 rows affected (0.16 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+mysql> SELECT * FROM address_book;
++------------+-----------+---------+-----------+------------+-------+--------+-------------+------------------------+
+| first_name | last_name | type    | address   | city       | state | zip    | phonenumber | email_id               |
++------------+-----------+---------+-----------+------------+-------+--------+-------------+------------------------+
+| Gagan      | Reddy     | friends | Heelalige | Bangalore  | KA    | 560099 |  8722289619 | gaganreddy30@gmail.com |
+| Shravya    | Reddy     | friends | Hosur     | Chennai    | TN    | 635109 |  7019329791 | shravyareddy@gmail.com |
+| Dilip      | Gowda     | friends | shirdi    | Ahmednagar | MH    | 423107 |  9739303032 | Dilipgowda@gmail.com   |
++------------+-----------+---------+-----------+------------+-------+--------+-------------+------------------------+
+3 rows in set (0.04 sec)
+
+mysql> UPDATE address_book SET type = 'manager'
+    -> WHERE first_name = 'Dilip' OR last_name = 'Gowda';
+Query OK, 1 row affected (0.08 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM address_book;
++------------+-----------+---------+-----------+------------+-------+--------+-------------+------------------------+
+| first_name | last_name | type    | address   | city       | state | zip    | phonenumber | email_id               |
++------------+-----------+---------+-----------+------------+-------+--------+-------------+------------------------+
+| Gagan      | Reddy     | friends | Heelalige | Bangalore  | KA    | 560099 |  8722289619 | gaganreddy30@gmail.com |
+| Shravya    | Reddy     | friends | Hosur     | Chennai    | TN    | 635109 |  7019329791 | shravyareddy@gmail.com |
+| Dilip      | Gowda     | manager | shirdi    | Ahmednagar | MH    | 423107 |  9739303032 | Dilipgowda@gmail.com   |
++------------+-----------+---------+-----------+------------+-------+--------+-------------+------------------------+
+3 rows in set (0.00 sec)
+
+mysql>
