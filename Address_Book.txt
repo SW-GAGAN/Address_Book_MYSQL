@@ -1,8 +1,8 @@
 Welcome to Address Book!
 
----------------------
-UC1 CREATE DATABASE 
----------------------
+-----------------------
+ #UC1 CREATE DATABASE 
+-----------------------
 
 mysql> CREATE TABLE address_book
     -> (
@@ -16,3 +16,33 @@ mysql> CREATE TABLE address_book
     -> email_id   VARCHAR(300) NOT NULL
     -> );
 Query OK, 0 rows affected (2.07 sec)
+
+
+------------------------------------
+ #UC2 ADD DATA TO THE ADDRESS BOOK
+------------------------------------
+mysql> INSERT INTO address_book (first_name,last_name,address,city,state,zip,phonenumber,email_id)
+    -> VALUES('Gagan','Reddy','Heelalige','Bangalore','KA','560099','8722289619','gaganreddy30@gmail.com');
+Query OK, 1 row affected (0.22 sec)
+
+mysql> SELECT * FROM address_book;
++------------+-----------+-----------+-----------+-------+--------+-------------+------------------------+
+| first_name | last_name | address   | city      | state | zip    | phonenumber | email_id               |
++------------+-----------+-----------+-----------+-------+--------+-------------+------------------------+
+| Gagan      | Reddy     | Heelalige | Bangalore | KA    | 560099 |  8722289619 | gaganreddy30@gmail.com |
++------------+-----------+-----------+-----------+-------+--------+-------------+------------------------+
+1 row in set (0.33 sec)
+
+mysql> INSERT INTO address_book (first_name,last_name,address,city,state,zip,phonenumber,email_id)
+    -> VALUES('Shravya','Reddy','Hosur','Chennai','TN','635109','7019329791','shravyareddy@gmail.com');
+Query OK, 1 row affected (0.39 sec)
+
+mysql> SELECT * FROM address_book;
++------------+-----------+-----------+-----------+-------+--------+-------------+------------------------+
+| first_name | last_name | address   | city      | state | zip    | phonenumber | email_id               |
++------------+-----------+-----------+-----------+-------+--------+-------------+------------------------+
+| Gagan      | Reddy     | Heelalige | Bangalore | KA    | 560099 |  8722289619 | gaganreddy30@gmail.com |
+| Shravya    | Reddy     | Hosur     | Chennai   | TN    | 635109 |  7019329791 | shravyareddy@gmail.com |
++------------+-----------+-----------+-----------+-------+--------+-------------+------------------------+
+2 rows in set (0.00 sec)
+
