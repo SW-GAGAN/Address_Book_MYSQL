@@ -90,7 +90,7 @@ mysql> SELECT * FROM address_book;
 1 row in set (0.05 sec)
 
 -----------------------------------------------
-#UC6 Retrive person belongs to city are State
+#UC6 Retrive person belongs to city are State 
 -----------------------------------------------
 mysql> SELECT * FROM address_book
     -> where state ='TN' OR city ='Chennai';
