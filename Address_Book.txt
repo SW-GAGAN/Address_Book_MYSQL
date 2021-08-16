@@ -138,3 +138,17 @@ mysql> SELECT state,COUNT(*) FROM address_book
 | MH    |        1 |
 +-------+----------+
 3 rows in set (0.00 sec) 
+------------------------------------------------------------------
+#UC8 RETRIVE ENTRIES STORED ALPHABETICALLY BY NAME FOR GIVEN CITY
+------------------------------------------------------------------
+mysql> USE address_book;
+Database changed
+mysql> SELECT * FROM address_book
+    -> Where city ="Bangalore"
+    -> ORDER BY first_name ASC;
++------------+-----------+-----------+-----------+-------+--------+-------------+------------------------+
+| first_name | last_name | address   | city      | state | zip    | phonenumber | email_id               |
++------------+-----------+-----------+-----------+-------+--------+-------------+------------------------+
+| Gagan      | Reddy     | Heelalige | Bangalore | KA    | 560099 |  8722289619 | gaganreddy30@gmail.com |
++------------+-----------+-----------+-----------+-------+--------+-------------+------------------------+
+1 row in set (0.80 sec)
