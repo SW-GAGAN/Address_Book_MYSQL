@@ -257,3 +257,433 @@ mysql> select * from address_book;
 +------------+-----------+---------+-----------+------------+-------+--------+-------------+------------------------+
 3 rows in set (0.04 sec)
 
+-----------------------------------------------------------------
+	   UC12 RE-CREATING TABLES TO DRAW ER-DIAGRAM
+-------------------------------------------------------------------
+mysql> use address_book;
+Database changed
+mysql> create table name_type
+    -> (
+    -> id int not null auto_increment,
+    -> name varchar(150) not null,
+    -> type varchar(100) not null,
+    -> primary key(id)
+    -> );
+Query OK, 0 rows affected (1.92 sec)
+
+mysql> desc name_type;
++-------+--------------+------+-----+---------+----------------+
+| Field | Type         | Null | Key | Default | Extra          |
++-------+--------------+------+-----+---------+----------------+
+| id    | int          | NO   | PRI | NULL    | auto_increment |
+| name  | varchar(150) | NO   |     | NULL    |                |
+| type  | varchar(100) | NO   |     | NULL    |                |
++-------+--------------+------+-----+---------+----------------+
+3 rows in set (0.07 sec)
+
+mysql> insert into name_type (name,type)
+    -> select name,type from address_book;
+ERROR 1054 (42S22): Unknown column 'name' in 'field list'
+mysql> insert into name_type (name,type)
+    -> select name , type from address_book;
+ERROR 1054 (42S22): Unknown column 'name' in 'field list'
+mysql> select  type from address_book;
++---------+
+| type    |
++---------+
+| manager |
+| friends |
+| friends |
++---------+
+3 rows in set (0.03 sec)
+
+mysql> insert into name_type (name,type)
+    -> select name from address_book;
+ERROR 1054 (42S22): Unknown column 'name' in 'field list'
+mysql> create table id_name
+    -> (
+    -> id int not null auto_increment,
+    -> name varchar(300) not null,
+    -> primary key(id)
+    -> );
+Query OK, 0 rows affected (1.05 sec)
+
+mysql> show tables;
++------------------------+
+| Tables_in_address_book |
++------------------------+
+| address_book           |
+| id_name                |
+| name_type              |
++------------------------+
+3 rows in set (0.11 sec)
+
+mysql> desc id_name;
++-------+--------------+------+-----+---------+----------------+
+| Field | Type         | Null | Key | Default | Extra          |
++-------+--------------+------+-----+---------+----------------+
+| id    | int          | NO   | PRI | NULL    | auto_increment |
+| name  | varchar(300) | NO   |     | NULL    |                |
++-------+--------------+------+-----+---------+----------------+
+2 rows in set (0.41 sec)
+
+mysql> insert into id_name (name)
+    -> select name from address_book;
+ERROR 1054 (42S22): Unknown column 'name' in 'field list'
+mysql> insert into id_name (name)
+    -> select first_ name from address_book;
+ERROR 1054 (42S22): Unknown column 'first_' in 'field list'
+mysql> insert into id_name (name)
+    -> select first_name from address_book;
+Query OK, 3 rows affected (0.64 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> create table id_type
+    -> (
+    -> id int not null auto_increment,
+    -> type varchar(100) not null,
+    -> primary key(id)
+    -> );
+Query OK, 0 rows affected (1.39 sec)
+
+mysql> insert into id_type (type)
+    -> select type from address_book;
+Query OK, 3 rows affected (0.17 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from id_type;
++----+---------+
+| id | type    |
++----+---------+
+|  1 | manager |
+|  2 | friends |
+|  3 | friends |
++----+---------+
+3 rows in set (0.00 sec)
+
+mysql> ALTER TABLE id_type CHANGE id type_id int not null auto_increment;
+Query OK, 0 rows affected (0.14 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from id_type;
++---------+---------+
+| type_id | type    |
++---------+---------+
+|       1 | manager |
+|       2 | friends |
+|       3 | friends |
++---------+---------+
+3 rows in set (0.00 sec)
+
+mysql> update id_type set type = 'family'
+    -> where type_id = 2;
+Query OK, 1 row affected (0.06 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> delete from id_type
+    -> where type_id = 3 or type_id = 4 or type_id = 5;
+Query OK, 1 row affected (0.13 sec)
+
+mysql> select * from id_type;
++---------+---------+
+| type_id | type    |
++---------+---------+
+|       1 | manager |
+|       2 | family  |
++---------+---------+
+2 rows in set (0.08 sec)
+
+mysql> create table id_city
+    -> (
+    -> city_id int not null auto_increment,
+    -> city varchar(150) not null,
+    -> primary key(city_id)
+    -> );
+Query OK, 0 rows affected (1.51 sec)
+
+mysql> show tables;
++------------------------+
+| Tables_in_address_book |
++------------------------+
+| address_book           |
+| id_city                |
+| id_name                |
+| id_type                |
+| name_type              |
++------------------------+
+5 rows in set (0.03 sec)
+
+mysql> desc id_city;
++---------+--------------+------+-----+---------+----------------+
+| Field   | Type         | Null | Key | Default | Extra          |
++---------+--------------+------+-----+---------+----------------+
+| city_id | int          | NO   | PRI | NULL    | auto_increment |
+| city    | varchar(150) | NO   |     | NULL    |                |
++---------+--------------+------+-----+---------+----------------+
+2 rows in set (0.32 sec)
+
+mysql> insert into id_city (city)
+    -> select city from address_book;
+Query OK, 3 rows affected (0.55 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from id_city;
++---------+------------+
+| city_id | city       |
++---------+------------+
+|       1 | Bangalore  |
+|       2 | Chennai    |
+|       3 | Ahmednagar |
++---------+------------+
+3 rows in set (0.00 sec)
+
+mysql> delete from id_city
+    -> where city_id = 2 or city_id = 3;
+Query OK, 2 rows affected (0.14 sec)
+
+mysql> update id_city set city_id = 2
+    -> where city = 'Nellur';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> update id_city set city_id = 3
+    -> where city = 'Vijayavada';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> select * from id_city;
++---------+-----------+
+| city_id | city      |
++---------+-----------+
+|       1 | Bangalore |
++---------+-----------+
+1 row in set (0.04 sec)
+
+mysql> create table id_state
+    -> (
+    -> state_id int not null auto_increment,
+    -> state varchar(150) not null,
+    -> primary key(state_id)
+    -> );
+Query OK, 0 rows affected (1.35 sec)
+
+mysql> show tables;
++------------------------+
+| Tables_in_address_book |
++------------------------+
+| address_book           |
+| id_city                |
+| id_name                |
+| id_state               |
+| id_type                |
+| name_type              |
++------------------------+
+6 rows in set (0.06 sec)
+
+mysql> desc id_state;
++----------+--------------+------+-----+---------+----------------+
+| Field    | Type         | Null | Key | Default | Extra          |
++----------+--------------+------+-----+---------+----------------+
+| state_id | int          | NO   | PRI | NULL    | auto_increment |
+| state    | varchar(150) | NO   |     | NULL    |                |
++----------+--------------+------+-----+---------+----------------+
+2 rows in set (0.01 sec)
+
+mysql> insert into id_state (state)
+    -> select state from address_book;
+Query OK, 3 rows affected (0.23 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from id_state;
++----------+-------+
+| state_id | state |
++----------+-------+
+|        1 | KA    |
+|        2 | TN    |
+|        3 | MH    |
++----------+-------+
+3 rows in set (0.00 sec)
+
+mysql> delete from id_state
+    -> where state_id = 2 or state_id = 3 or state_id = 5;
+Query OK, 2 rows affected (0.10 sec)
+
+mysql> update id_state set state_id = 2
+    -> where state = 'Andhra Pradesh';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> select * from id_state;
++----------+-------+
+| state_id | state |
++----------+-------+
+|        1 | KA    |
++----------+-------+
+1 row in set (0.00 sec)
+
+mysql> create table city_zip
+    -> (
+    -> id int not null auto_increment,
+    -> city varchar(150) not null,
+    -> zip int not null,
+    -> primary key(id)
+    -> );
+Query OK, 0 rows affected (0.95 sec)
+
+mysql> show tables;
++------------------------+
+| Tables_in_address_book |
++------------------------+
+| address_book           |
+| city_zip               |
+| id_city                |
+| id_name                |
+| id_state               |
+| id_type                |
+| name_type              |
++------------------------+
+7 rows in set (0.00 sec)
+
+mysql> desc city_zip;
++-------+--------------+------+-----+---------+----------------+
+| Field | Type         | Null | Key | Default | Extra          |
++-------+--------------+------+-----+---------+----------------+
+| id    | int          | NO   | PRI | NULL    | auto_increment |
+| city  | varchar(150) | NO   |     | NULL    |                |
+| zip   | int          | NO   |     | NULL    |                |
++-------+--------------+------+-----+---------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> insert into city_zip (city,zip)
+    -> select city,zip from address_book;
+Query OK, 3 rows affected (0.14 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from city_zip;
++----+------------+--------+
+| id | city       | zip    |
++----+------------+--------+
+|  1 | Bangalore  | 560099 |
+|  2 | Chennai    | 635109 |
+|  3 | Ahmednagar | 423107 |
++----+------------+--------+
+3 rows in set (0.00 sec)
+
+mysql> delete from city_zip
+    -> where id = 2 or id = 3;
+Query OK, 2 rows affected (0.45 sec)
+
+mysql> update city_zip set id = 2
+    -> where city = 'Nellur';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> update city_zip set id = 3
+    -> where city = 'Vijayavada';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> select * from city_zip;
++----+-----------+--------+
+| id | city      | zip    |
++----+-----------+--------+
+|  1 | Bangalore | 560099 |
++----+-----------+--------+
+1 row in set (0.00 sec)
+
+mysql> create table id_details
+    -> (
+    -> id int not null auto_increment,
+    -> first_name varchar(150) not null,
+    -> last_name varchar(150) not null,
+    -> email varchar(300) not null,
+    -> primary key(id)
+    -> );
+Query OK, 0 rows affected (1.87 sec)
+
+mysql> show tables;
++------------------------+
+| Tables_in_address_book |
++------------------------+
+| address_book           |
+| city_zip               |
+| id_city                |
+| id_details             |
+| id_name                |
+| id_state               |
+| id_type                |
+| name_type              |
++------------------------+
+8 rows in set (0.38 sec)
+
+mysql> desc id_details;
++------------+--------------+------+-----+---------+----------------+
+| Field      | Type         | Null | Key | Default | Extra          |
++------------+--------------+------+-----+---------+----------------+
+| id         | int          | NO   | PRI | NULL    | auto_increment |
+| first_name | varchar(150) | NO   |     | NULL    |                |
+| last_name  | varchar(150) | NO   |     | NULL    |                |
+| email      | varchar(300) | NO   |     | NULL    |                |
++------------+--------------+------+-----+---------+----------------+
+4 rows in set (0.07 sec)
+
+mysql> select first_name,last_name,email_id from address_book;
++------------+-----------+------------------------+
+| first_name | last_name | email_id               |
++------------+-----------+------------------------+
+| Gagan      | Reddy     | gaganreddy30@gmail.com |
+| Shravya    | Reddy     | shravyareddy@gmail.com |
+| Dilip      | Gowda     | Dilipgowda@gmail.com   |
++------------+-----------+------------------------+
+3 rows in set (0.01 sec)
+
+mysql> select * from id_details;
+Empty set (0.00 sec)
+
+mysql> create table id_phonenumber
+    -> (
+    -> id int not null auto_increment,
+    -> phonenumber bigint not null,
+    -> primary key(id)
+    -> );
+Query OK, 0 rows affected (0.69 sec)
+
+mysql> show tables;
++------------------------+
+| Tables_in_address_book |
++------------------------+
+| address_book           |
+| city_zip               |
+| id_city                |
+| id_details             |
+| id_name                |
+| id_phonenumber         |
+| id_state               |
+| id_type                |
+| name_type              |
++------------------------+
+9 rows in set (0.07 sec)
+
+mysql> desc id_phonenumber;
++-------------+--------+------+-----+---------+----------------+
+| Field       | Type   | Null | Key | Default | Extra          |
++-------------+--------+------+-----+---------+----------------+
+| id          | int    | NO   | PRI | NULL    | auto_increment |
+| phonenumber | bigint | NO   |     | NULL    |                |
++-------------+--------+------+-----+---------+----------------+
+2 rows in set (0.13 sec)
+
+mysql> insert into id_phonenumber (phonenumber)
+    -> select phonenumber from address_book;
+Query OK, 3 rows affected (0.48 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from id_phonenumber;
++----+-------------+
+| id | phonenumber |
++----+-------------+
+|  1 |  8722289619 |
+|  2 |  7019329791 |
+|  3 |  9739303032 |
++----+-------------+
+3 rows in set (0.00 sec)
